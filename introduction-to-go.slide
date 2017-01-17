@@ -3,35 +3,35 @@ Women Who Go Tokyo
 10 Dec 2016
 
 Dave Cheney
-dave@cheney.net
-http://dave.cheney.net/
-@davecheney
+i.can.feel.gravity@gmail.com
+https://github.com/kpango
+@kpango
 
 * License and Materials
 
-This presentation is licensed under the [[https://creativecommons.org/licenses/by-sa/4.0/][Creative Commons Attribution-ShareAlike 4.0 International]] licence.
+This presentation is a Japanese translation of @davecheney's presentation, and the licensed under the [[https://creativecommons.org/licenses/by-sa/4.0/][Creative Commons Attribution-ShareAlike 4.0 International]] licence.
 
 The materials for this presentation are available on GitHub:
 
-.link https://github.com/davecheney/introduction-to-go
+.link https://github.com/kpango/introduction-to-go
 
 You are encouraged to remix, transform, or build upon the material, providing you give appropriate credit and distribute your contributions under the same license.
 
-If you have suggestions or corrections to this presentation, please raise [[https://github.com/davecheney/introduction-to-go/isues][an issue on the GitHub project]].
+If you have suggestions or corrections to this presentation, please raise [[https://github.com/kpango/introduction-to-go/issues][an issue on the GitHub project]].
 
-* Agenda
+* アジェンダ
 
-This workshop is aimed at programmers with experience in another programming language and want to learn how to apply their skills to Go.
+このプレゼンテーションは他のプログラミング言語の経験者向けにGo言語のスキルを習得してもらうためのスライドです。
 
-This workshop consists of five main sections:
+全体を通して下記の5つのセクションに分かれています。
 
-- Basic Syntax
-- Advanced Syntax
-- Development environment and tooling
-- The standard library
-- Packages and applications
+- 基礎文法
+- 応用文法
+- 開発環境とツール
+- 標準ライブラリ
+- パッケージとアプリケーション
 
-After each section we'll have time for questions.
+質問は随時受け付けています
 
 As we work through the day there will be less of me talking, and more exercises to help you learn Go via doing.
 
