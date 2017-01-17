@@ -22,7 +22,7 @@ This slide deck and supporting material is part of the [_Introduction to Go_](ht
 The slides will be available at [http://127.0.0.1:3999/introduction-to-go.slide](http://127.0.0.1:3999/introduction-to-go.slide#1)
 
 # Online
-You can view current version of slides at [https://go-talks.appspot.com/github.com/davecheney/introduction-to-go/introduction-to-go.slide#1](https://go-talks.appspot.com/github.com/davecheney/introduction-to-go/introduction-to-go.slide#1)
+You can view current version of slides at [https://go-talks.appspot.com/github.com/kpango/introduction-to-go/introduction-to-go.slide#1](https://go-talks.appspot.com/github.com/kpango/introduction-to-go/introduction-to-go.slide#1)
 
 # License and Materials
 
