@@ -1,8 +1,7 @@
 Introduction to Go
-Women Who Go Tokyo
-10 Dec 2016
+17 Jan 2017
 
-Dave Cheney
+Yusuke Kato
 i.can.feel.gravity@gmail.com
 https://github.com/kpango
 @kpango
@@ -33,63 +32,63 @@ If you have suggestions or corrections to this presentation, please raise [[http
 
 質問は随時受け付けています
 
-As we work through the day there will be less of me talking, and more exercises to help you learn Go via doing.
+このワークショップでは講義の時間よりも実践の時間を多くとることでGo言語についての理解を早くしています。
 
 * The Go programming language
 
 - Modern
-- Compact, concise, general-purpose
-- Imperative, statically type-checked, dynamically type-safe
-- Garbage-collected
-- Compiles to native code, statically linked
-- Fast compilation, efficient execution
+- コンパクト、簡潔、汎用的
+- 命令的、静的型チェック、動的型安全
+- ガベージコレクション
+- ネイティヴコードへのコンパイル、スタティックリンク
+- 高速にコンパイルでき、高速に動作する
 
-Designed by programmers for programmers!
+プログラマーのためにプログラマーが設計した言語
 
 .link https://talks.golang.org/2014/taste.slide#2 Source: Robert Griesemer, A Taste of Go.
 
 * Speed
 
-Go is often noted for its fast compilation, but this is only one facet of the idea of Go being a _fast_ language to program in.
+Go言語は高速であるという記述がしばしば見受けられます、しかしこれはGo言語における要素のほんの一面でしかありません。
 
-"False dichotomy of static languages being 'slow and painful' and dynamic languages being 'fast and fun'" -Rob Pike
+「静的言語が「遅くて苦痛」であり、動的言語が「速くて楽しい」という誤った二分法が行われている」-Rob Pike
 
-"Clumsy type systems drive people to dynamically typed languages" -Robert Griesemer
+「洗練されていない型システムは人々を動的言語へと誘導してしまう」 -  Robert Griesemer
 
-Go is an attempt to demonstrate that a language can be both fast in terms of the programs it produces and fast (productive?) for the programmers.
+Go言語はプログラマーのために言語が高速に早いプログラムを構築できるという生産性を証明しようとする試みです。
 
 * Safety
 
-- Typed, and type safe
+- 型と型安全
 
  var i int = -1
  var u uint = 200
- i = u   // nope, incompatible types
+ i = u   //型の不一致によりエラー 
 
-- Array accesses are bounds checked
+- 配列へのアクセスは、配列長がチェックされる
 
  s := make([]string, 10)
- x := s[20] // will panic at runtime
+ x := s[20] //runtime panic
 
-- All memory is zeroed if not explicitly initialised
+- 初期化されていない変数のメモリ空間は0である
 
  var q int       // initialised to 0
  var f = 7       // initialised to 7, type defaults to int
 
-- No implicit conversions; booleans and integers are not aliases
+- 暗黙的型変換は存在しないため、intとboolはエイリアスではありません。
 
  i := 2
- if i { ... }    // nope, no coercion to bool
+ if i { ... }    // bool値ではないためエラー
 
-* Good support for concurrency and communication
+* 並行性のための優れた機能
 
-- Multicore CPUs are a reality.
-- Multiprocessing is not a solution.
-- Networking support baked into the standard library, integrated into the runtime.
+- マルチコアCPU対応
+- マルチプロセスではありません
+- ランタイムに統合された標準ネットワークライブラリが充実
 
-* Garbage collected
+* ガベージコレクション
 
-Go is a garbage collected language.
+Go言語はGC言語です
 
 - Eliminates the bookkeeping errors related to ownership of shared values.
 - Eliminates an entire class of use after free and memory leak bugs.
@@ -1813,4 +1812,3 @@ I would like to recommend two books:
 
 .link https://www.amazon.co.jp/exec/obidos/ASIN/4621300253 プログラミング言語Go
 .link https://www.amazon.co.jp/exec/obidos/ASIN/477418392X/ みんなのGo言語【現場で使える実践テクニック】
-
