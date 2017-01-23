@@ -1,5 +1,5 @@
 Introduction to Go
-17 Jan 2017
+19 Jan 2017
 
 Yusuke Kato
 i.can.feel.gravity@gmail.com
@@ -179,7 +179,7 @@ Goの識別子は文字で始めなければいけません
 
 文字はUnicode文字であれば、漢字、キリル文字、ラテン文字など様々な文字が使えます
 
-- 識別子はASCIIに限定されないため、コードの `students` を `学生` に変更し、 *Run* を押してみてください
+- 識別子はASCIIに限定されないため、コードの `students` を `学生` に変更し、*Run* を押してみてください
 - 間違えた場合は、ページをリロードしてください
 
 * Identifiers (cont.)
@@ -372,7 +372,7 @@ Goは `if` と `switch` の2つの条件文があります。
          println("v is less than or equal to zero")
  }
 
-ある場合には、`else` ブロックの本体は省略できます。これは、関数のメソッドの前提条件をチェックするときに非常に一般的です。
+ある場合には、 `else` ブロックの本体は省略できます。これは、関数のメソッドの前提条件をチェックするときに非常に一般的です。
 
  if v == 0 {
          // nothing to do
@@ -531,7 +531,7 @@ Goには2つの整数型があります
 このプログラムは `main` と `hello` という2つの関数を宣言しています。
 
 - `func`  `hello` 内の `println("こんにちは")` 文のコメントをはずして下さい。
-- *Run* を押し、プログラムがコンパイルされ、こんちにはを3回表示することをチェックして下さい。
+- *Run* を押し、こんちにはを3回表示することをチェックして下さい。
 
 _注意_: `println` は提供されている _ビルトイン_ 関数です。宣言する必要はありません。
 
@@ -552,15 +552,15 @@ _注意_: `println` は提供されている _ビルトイン_ 関数です。�
 
 パッケージとは、Goでソフトウェアを共有して再利用するユニットです。 すべてのGoコードはパッケージにまとめられています。
 
-パッケージ内の各ソースファイルは、同じ `package` 宣言で始まらなければなりません。
+パッケージ内の各ソースファイルは `package` 宣言で始まらなければなりません。
 
-パッケージの名前は、 `const`、` var`、 `func` のように、有効な識別子でなければなりません。
+パッケージの名前は、 `const`、`var`、 `func` のように、有効な識別子でなければなりません。
 
 .play -edit src/packages/packages1/main.go
 
 これは前のスライドと同じ例で、 `package` 宣言を示しています
 
-`package`  `main` はプログラムのエントリポイント `func`  `main` を含むパッケージの名前です
+`package`  `main` はプログラムのエントリポイント `func`  `main` を含むパッケージ名です
 
 * main packages
 
@@ -574,8 +574,6 @@ _注意_: `println` は提供されている _ビルトイン_ 関数です。�
 - *Run* を押して、プログラムが挨拶を印刷するかどうかを確認します
 
 * Import
-
-このセクションで最後に行う宣言は _import_ 宣言です。
 
 `import` 宣言では、パッケージに他の _packages_ のコードを使用することができます。
 
@@ -600,14 +598,14 @@ and
 
 * Import (cont.)
 
-`import`宣言は、`package` 宣言の後、 `type`、` const`、 `var`、または `func` 宣言の前に書かなければなりません
+`import` 宣言は、`package` 宣言の後、 `type`、 `const`、 `var`、または `func` 宣言の前に書かなければなりません
 
 .play -edit src/imports/imports1/main.go 
 
 `import` 宣言が間違った場所にあるので、このプログラムはコンパイルされません
 
 - `var`now` = `time.Now()`  `import` 宣言の後に移してください
-- * Run* を押して、プログラムが現在時刻を表示していることを確認します
+- *Run* を押して、プログラムが現在時刻を表示していることを確認します
 
 * Import (cont.)
 
@@ -618,7 +616,7 @@ and
 このプログラムは、2つの _private_ シンボルを参照するのでコンパイルされません。
 
 - `Println` と `Time` の大文字を使ってプログラムを修正してください。
-- * Run* を押して、プログラムが現在時刻を表示していることを確認します。
+- *Run* を押して、プログラムが現在時刻を表示していることを確認します。
 
 _note_: このスライドを[[https://go-talks.golang.org/][gotalks.golang.org]]から実行している場合go-talkの制限により時間は `2009-11-10`23:00:00`+0000`UTC` となります。
 
@@ -651,368 +649,373 @@ _note_: このスライドを[[https://go-talks.golang.org/][gotalks.golang.org]
 
 * Advanced Syntax
 
-This section builds on the previous by exploring each of the things we learnt in a little more detail.
+このセクションでは基本文法で学んだ内容を踏まえて、より詳細に応用的な文法について見ていきましょう
 
-In this section we'll use the Go Playground, a simple online code editor to perform our exercises.
+このセクションでは、Go言語のオンラインエディターであるGo Playgroundを仕様して演習を行っていきます
 
 * Coding style
 
-All Go code is formatted according to a single style guide which is enforced with a tool called `gofmt`
+すべてのGoコードは、単一のスタイルガイドに従ってフォーマットされ、 `gofmt` というツールで実行されます
 
-Having one single style that all Go code is formatted in improves readability and avoids the time wasted arguing about code formatting.
+単一のスタイルガイドに則ってコードがフォーマットされている事により、Goのコードは高い可読性を持ち、コードのスタイルガイドを選定する時間を節約することができます。
 
-"Gofmt's style is no one's favorite, yet gofmt is everyone's favorite."
+"Gofmtのスタイルは誰もお気に入りではありませんが、誰もが気にいるでしょう"
 .caption [[https://go-proverbs.github.io/][Go Proverb]].
 
-The Go playground can format your code according to the canonical Go style.
+Go Playgroundでは標準的なGofmtのスタイルガイドにのっとってコードをフォーマットできます
 
-- Follow [[https://play.golang.org/p/0Hz57BQdTA][this link]] and press the *Format* button to see this in action.
+- [[https://play.golang.org/p/0Hz57BQdTA][こちら]] のリンクへ行き *Format* ボタンを押してください
 
 * Zero value
 
-In previous examples we've written code like this
+前の例では、このようなコードを書いています
 
  var name = "go"
  var counter = 1
 
-Which both _declares_ and _initalises_ the variables `counter` and `name` respectively. What happens if we have code like this?
 
-.code src/zerovalue/zerovalue1/main.go
+_宣言_ と _初期化_ の両方がそれぞれ変数 `counter` と `name` です。このようなコードは何が起こるでしょうか
 
-What will this print?
+code src/zerovalue/zerovalue1/main.go
 
-- Follow [[https://play.golang.org/p/jioUB0t_LW][this link]] and press the *Run* button to see this in action.
+何が表示されると思いますか?
+
+- [[https://play.golang.org/p/jioUB0t_LW][こちら]] のリンクへ行き *Run* ボタンを押して結果を確認してみてください
 
 * Zero value (cont.)
 
-In Go, there is no unitialised memory. The Go runtime will always ensure that the memory allocated for each variable is initalised before use.
+Go言語では初期化されていないメモリは存在しません。Go言語ランタイムは各変数に割り当てられたメモリを使用前に必ず初期化する事を保証しています。
 
-If we write something like 
+以下のようなコードを書いた場合
 
  var name string
  var counter int
 
-Then the memory assigned to the variables `name` and `counter` will be zeroed, as we have not provided an _initaliser_.
+宣言時の `name` と `counter` のメモリは初期化されていないため、ゼロとなっています。
 
-- The value of `name` will be `""` because that is the value of a string with zero length.
-- The value of `counter` will be zero, because that is the value of an `int` if we wrote `0` to its memory location.
+- `name` の値は長さがゼロの文字列の値なので `""` になります。
+- `counter` の値はゼロになります。なぜなら、そのメモリ位置に `0` を書き込んだ場合、それが `int` の値であるからです
 
 * Zero value (cont.)
 
-Every type in Go has an associated _zero_value_. The value of that variable if we wrote zeros to its memory.
+Goの各タイプには、関連付けられた _zero_value_ があります。 変数にゼロを書き込んだ場合のその変数の値
 
-- The zero value for integer types: `int`, `int8`, `uint`, `uint64`, etc, is `0`.
-- The zero value for floating point types: `float32`, `float64`, `complex128`, etc, is `0.0`.
-- The zero value for arrays is the zero value for each element, ie. `[3]int` is `0`, `0`, `0`.
-- The zero value for slices is `nil`.
-- The zero value for structs is the zero value for each field.
+- 整数型のゼロ値: `int`、`int8`、 `uint`、`uint64` などは `0` です
+- float32型、float64型、complex128型などの浮動小数点型のゼロ値は「0.0」です
+- 配列のゼロ値は各要素のゼロ値です。 `[3]int` は `0`、 `0`、 `0` です
+- スライスのゼロ値は `nil` です
+- structsのゼロ値は、各フィールドのゼロ値です
 
 * Equality
 
-As Go is a strongly typed language, for two variables to be equal, both their _type_and_their_value_ must be equal.
+Goは厳密に型指定された言語であるため、2つの変数が等しくなるためには、_型とその値_ も同じでなければなりません
 
-Trying to compare two variables of _different_ types is detected at runtime.
+_異なる_ タイプの2つの変数を比較しようとすると、実行時に検出されます。
 
 .code src/equality/equality1/main.go
 
-- Follow [[https://play.golang.org/p/LwiJm2xuXK][this link]] and press the *Run* button.
-- Fix the program by declaring `x` and `y` to be the _same_ type.
-- Press the *Run* button and confirm the program now prints `true`.
+- [[https://play.golang.org/p/LwiJm2xuXK][こちら]] のリンクに行き *Run* ボタンを押してください
+- `x` と `y` を _同じ_ 型と宣言してプログラムを修正してください。
+- *Run* ボタンを押してプログラムが `true` を出力することを確認します
 
 * Type conversions
 
-Sometimes you have variables of different integer types, you can _convert_ from one type to another using a conversion _expression_.
+場合によっては、異なる整数型の変数を持つこともあります
+ある型から別の型に _キャスト_ を使用して変換することができます
 
-The expression `T(v)` converts the value `v` to the type `T`.
+この式は `T(v)` により `v` という変数を `T` に型変換しています
 
 .code -edit src/types/types2/main.go
 
-In this example the assignment of `y`=`x` fails because `x` and `y` are different integer types.
+この例では、 `y` = `x` は `x` と `y` の型が一致しないためこのコードは失敗します
 
-- Follow [[https://play.golang.org/p/wvG41C0lH4][this link]] and press the *Run* button.
-- Fix the program by _converting_ `x` to an `int` with `int(x)`.
-- Press the *Run* button and confirm the program now prints `700`.
+- [[https://play.golang.org/p/wvG41C0lH4][こちら]] のリンクへ行き、 *Run* ボタンを押してください
+- プログラム中の `x` を `int(x)` を用いることでキャストしてください
+- そして *Run* ボタンを押し、 `700` という数字が出力されることを確認してください
 
 * Type conversions (cont.)
 
-If you have variables of different _widths_, you can _convert_ from one type to another.
+_異なる長さ_ の変数がある場合、あるタイプから別のタイプへ _変換_ することができます。
 
 .code -edit src/types/types3/main.go
 
-- Follow [[https://play.golang.org/p/l4Q48pWAla][this link]] and press the *Run* button.
-- Fix the program by _converting_ `x` to an `int64` with `int64(x)`.
-- Press the *Run* button and confirm the program now prints `32000`.
+- [[https://play.golang.org/p/l4Q48pWAla][こちら]] のリンクへ行き、 *Run* ボタンを押して実行してください
+- プログラムの `x` を `int64` にするために `int64(x)` として変換してください
+- *Run* ボタンを押して `32000` が表示されることを確認してください
 
 * Type conversions (cont.)
 
-We can do the opposite and convert a wider type to a narrower type.
+逆に、より広い型をより狭い型に変換することができます。
 
 .code -edit src/types/types4/main.go
 
-- Follow [[https://play.golang.org/p/NbNwRjbmRu][this link]] and press the *Run* button. Does it print the answer you expected?
-- Fix the program by _declaring_ `y` as an `int32`.
-- Press the *Run* button and confirm the program now prints `64000`.
+- [[https://play.golang.org/p/NbNwRjbmRu][こちら]] のリンクへ行き *Run* ボタンを押してください
+- 意図した答えが表示されましたか？
+- プログラムの `y` の部分を `int32` に変更してください
+- *Run* ボタンを押し `64000` が表示されることを確認してください
 
 * Integer overflow
 
-Whenever you declare a variable in Go, you have to choose how many bits of memory it will consume.
+Goで変数を宣言する際に消費するとされるメモリのビット長を選択する必要があります
 
-When you convert a variable with a _smaller_ number of bits to a variable with a larger number of bits, this is fine, because they all fit.
+_小さな_ ビット数の変数を大きなビット数の変数に変換すると、これらはすべて収まるため、問題ありません
 
-When you convert a variable with a _larger_ number of bits to a variable with a smaller number of bits there is a risk of truncation, because there are less bits available to represent your number.
+_より大きな_ ビット数の変数を小さいビット数の変数に変換すると、そのビットを使用できるビット数が少なくなるため、切り捨てられる危険性があります
 
-- Follow [[https://play.golang.org/p/NbNwRjbmRu][this link]] and press the *Run* button. Does it print the answer you expected?
-- Fix the program by reducing the value of `x`. Hint: the value needs to be less than 33,000.
-- Press the *Run* button and confirm the program now prints `y` correctly.
+- [[https://play.golang.org/p/NbNwRjbmRu][こちら]] のリンクへ行き *Run* をクリックし、何が表示されるか確認してください
+- `x` の値を減らしてプログラムを修正してください
+- ヒント: 値は33,000未満である必要があります
+- *Run* ボタンを押して `y` が正しく出力されることを確認してください
 
 * Short declaration syntax
 
-As you've probably noticed, Go has several ways to declare variables. All three of these are the same
+Goには変数を宣言するいくつかの方法があります。これらの3つはすべて同じです
 
  var x = 0
  var x int = 0
  var x int
 
-If you've come from a language like Ruby or Python, you're probably wondering if this very common operation can be made more concise. Indeed it can.
+RubyやPythonのような言語に慣れている人は、より簡潔に書く事が出来るかと思うかもしれませんが、確かにできます
 
  x := 0
 
-This is what we call a _short_declaration_, which is the same as 
+これは _short_declaration_ と呼ばれる記述法です
  
  var x int = 0
 
-Short declaration is very common in Go programs, you'll see it everywhere, so let's do some exercises to familarise you with its use.
+短縮宣言はGoの様々なソースで見られる宣言なので、少し練習をしましょう
 
 * Short declaration syntax (cont.)
 
-A common use of the short declaration syntax is in `for` loops. Consider this program
+一般的に短縮宣言は下記のような `for` ループなどでよく使われています
 
  var i int
  for i = 1; i < 11; i++ {
          fmt.Println(i)
  }
 
-This can be also written as
+上記の場合、短縮宣言を使って以下のように書くこともできます
 
  for i := 1; i < 11; i++ {
          fmt.Println(i)
  }
 
-[[https://play.golang.org/p/3Vl75w72JO][This program]] contains two `var` declarations and two `for` loops.
+[[https://play.golang.org/p/3Vl75w72JO][こちら]] のプログラムには2つの `var` 宣言と2つの `for` ループが存在しています
 
-- Follow [[https://play.golang.org/p/3Vl75w72JO][this link]] and press the *Run* button.
-- Rewrite the program using the short declaration syntax; there should be no `var` declarations, only `:=`.
+- [[https://play.golang.org/p/3Vl75w72JO][リンク]] へ行き *Run* ボタンを押して実行してみてください
+- そして短縮宣言をつかって `var` を `:=` に書き換えてみてください
 
 * Slices
 
-The next kind of type to discuss is the _Slice_. 
+次に学ぶべき型は _Slice_ です
 
-A slice is an ordered collection of values of a _single_ type.
+スライスは _単一_ の型の順序付けられた値の集合です
 
-The syntax for declaring a slice variable is very similar to declaring a _scalar_ variable.
+スライスは他の型の宣言と同様に定義することができます
 
- var i int      // an int called i
- var j []int    // a slice of ints called j
+ var i int      // int 型の i を宣言
+ var j []int    // int 型スライスの j を宣言
 
-In this example, 
+この例では
 
-- `i` is a variable of type `int`. 
-- `j` is a variable of type `[]int`, that is, a slice of `int`.
+- `i` は `int` 型です
+- `j` は `[]int` 型です、これは `int` のスライスを指しています
 
-Slices are very important in Go programs, so we'll spend a bit of time discussing them.
+SliceはGo言語に於いて大変重要な要素の一つなので、少し詳しく見ていきましょう
 
-_note_: A slice is _not_ an array. Go also supports arrays, but you'll see later than they aren't very common, or very easy to use, so we won't discuss them at the moment.
+_注意_ : スライスは配列とは異なるデータ型です、Go言語では配列もサポートしていますが、一般的に多用されるのはスライスのため、現時点では配列の話は説明しません 
 
 * How large is a slice?
 
-If I declare a slice, `[]int`, how many items can it hold?
+`[]int` を用いてスライスを宣言する場合、どれぐらいの要素を格納できるのでしょうか？
 
-The _zero_value_ of a slice is empty, that is, it has a _length_ of zero; it can hold 0 items.
+スライスの初期値は _zero_value_ のため、初期スライスは空です、つまり _length_ が0で0個の要素を保持できます。
 
 .code -edit src/slices/slices1/main.go
 
-We can retrieve the length of a slice with the built-in `len` function.
+組み込みの `len` 関数を用いることでスライスの長さを調べることができます
 
-- Follow [[https://play.golang.org/p/gZYvdE2zbT][this link]] and press the *Run* button.
-- Did you guess the right answer?
+- [[https://play.golang.org/p/gZYvdE2zbT][こちら]] のリンクへ行き *Run* ボタンを押してください
+- 正しい答えを予測できましたか？
 
 * Making a slice
 
-We can create a slice with space to hold items using the built-in `make` function.
+組み込みの `make` 関数をつかって値を保持することができる、スライスを作成することができます
 
 .code -edit src/slices/slices2/main.go
 
-In this example, on the first line `var i []int` declares `i` to be a slice of `int`.
+この例では、1行目の `var` `i` `[]int` では `i` を `int` のスライスとして宣言しています
 
-On the second line, `i` is _assigned_ the result of `make([]int,`20)`.
+2行目では `i` は `make([]int,` `20)` の結果としてわり当てられています
 
-- Follow [[https://play.golang.org/p/i_IWqjik6u][this link]] and press the *Run* button.
-- Did `fmt.Println(len(i))` print the result you expected?
+- [[https://play.golang.org/p/i_IWqjik6u][こちら]] のリンクへ行き、 *Run* ボタンを押してください
+- 正しい答えを予測できましたか？
 
 * Making a slice (cont.)
 
-Because declaring a slice variable and initalising it with `make` is a common operation, it is common to see the _short_variable_declaration_ used to combine this operations.
+`make` と _短縮宣言_ を組み合わせてスライスを宣言することが一般的です
 
 .code -edit src/slices/slices3/main.go
 
-This example declares `i` _and_ initalises it to be a slice of `int` with a length of 20.
+この例では `i` が長さ20の `int` 型のスライスであることを宣言しています
 
-- Follow [[https://play.golang.org/p/b92SJ0Gx9s][this link]] and press the *Run* button.
-- Did `fmt.Println(len(i))` print the result you expected?
+- [[https://play.golang.org/p/b92SJ0Gx9s][こちら]] のリンクへ行き *Run* ボタンを押してください
+- `fmt.Println(len(i))` の結果は想定通りでしたか？
 
 * Slice exercises
 
-Let's do a quick exercise to familarise yourself with using slices.
+スライスを使いこなすために、少しスライスについて練習しましょう
 
 .code -edit src/slices/slices4/main.go
 
-- Follow [[https://play.golang.org/p/AJk1Jgp1iE][this link]] for instructions.
-- Declare a variable called `i` which is a slice of 5 `int`.
-- Declare a variable called `f` which is a slice of 9 `float64`.
-- Declare a variable called `s` which is a slice of 4 `string`.
-- Does your program print the expected result, `5`9`4`?
+- [[https://play.golang.org/p/AJk1Jgp1iE][こちら]] のリンクへ行き、手順どうりに編集してみてください
+- 長さが5の `int` 型のスライス `i` を宣言してください
+- 長さが9の `float64` 型のスライス `f` を宣言してください
+- 長さが4の `string` 型のスライス `s` を宣言してください
+- 実行結果に `5`9`4` が表示されましたか？
 
 * Index expressions
 
-To access, or assign, the contents of a slice element at index `i`, use the form `s[i]`.
+スライスの `i` 番目の要素へのアクセスや割り当てには `s[i]` という形式を使います
 
-Slices are zero indexed, so `s[0]` is the 1st element, `s[1]` is the second element, and so on.
+スライスはゼロでインデックス付けされているので、
+`s[0]` は第1要素、 `s[1]` は第2要素ととなります
 
-When the _index_expression_ appears on the _left_hand_side_ of the equals operator, `=`
+インデックスを指定して代入を行うと、値の割り当てを行うことができます
 
  s[7] = 20
 
-We are assigning the number 20 to the 8'th element of the slice `s`.
+上記の例では、スライス `s` のインデックス7である8番目の要素に20という値を割り当てています
 
-When the _index_expression_ appears on the _right_hand_side_ of the equals operator, `=`
+インデックスを指定して扱うと値を取り出すことができます。
 
  x := s[7]
 
-We are assigning the value at the 8th element of `s` to the variable `x`.
+上記の例では、スライス `s` の8番目の要素を取得して `x` に代入を行っています
 
 * Slice zero value
 
-We saw earlier that the _zero_value_ of the slice
+これまでに空のスライスを見てきました
 
  var s []int
 
-was and empty slice, a slice with length of zero.
+このような空のスライスの `length` はゼロです
 
-What is the value of each of the elements of a newly created, with make, slice?
+それでは `make` で初期化されたスライスの各要素の値はなんだと思いますか？
 
 .play -edit src/slices/slices5/main.go
 
-- Follow [[https://play.golang.org/p/kGh_C1l6KW][this link]] and press the *Run* button.
-- Did the program print the result you expected?
+- [[https://play.golang.org/p/kGh_C1l6KW][こちら]] のリンクへ行き、 *Run* ボタンを押してください
+- 期待通りの動作をしましたか？
 
 * Slice initialisation
 
-We want to create an `[]int` slice of the first 10 prime numbers, how could we do this?
+あなたが宣言時に10個の要素を持つ `[]int` スライスを作りたい場合はどうすればいいと思いますか？
 
-One solution could be to create the slice and assign a value to each element in the slice.
+解決策の一つとしては、スライスの各要素に値を割り当てることです
 
 .play -edit src/slices/slices6/main.go
 
 * Slice initialisation (cont.)
 
-Doing this manually is verbose and boring; how would you do this for the first 50 primes?
+しかしこんな冗長的な事を行っていては要素数が50個などになったときにめんどくさくて対応できません
 
-Go supports a method of assignment where we both _declare_ and _initalise_ the slice at once.
+Go言語では、スライスを宣言すると同時に、初期化を行う方法があります
 
 .play -edit src/slices/slices7/main.go
 
-This is called the _composite_literal_ syntax.
+この構文は、複合リテラルと呼ばれます
 
-- Follow [[https://play.golang.org/p/P-eBqzPCWh][this link]] and complete the exercise.
+- [[https://play.golang.org/p/P-eBqzPCWh][こちら]] のリンクへ行き、課題を完成させてください
 
 * append
 
-So far we've been using slices with a known length. You can extend the contents of a slice with the built-in `append` function.
+これまで、既知の長さのスライスを使ってきましたが、組み込み関数である `append` を使う事によってスライスの内容を拡張する事ができます
 
 .play -edit src/slices/slices8/main.go
 
-`append` increases the length of the slice to accommodate the new items, then returns a new slice value.
+`append` 拡張される項目に対応するようにスライス長を増やし、新しいスライス値を返します
 
-You can `append` multiple values in one statement, providing they are all the same type.
+`append` を使う事で一つの命令で複数の値を追加する事ができます
 
 .link https://blog.golang.org/slices Further reading: Arrays, slices (and strings): The mechanics of 'append' (blog.golang.org)
 
-* Subslices
+* SubSlices
 
-What if we have a large slice, and want to refer to only a part of it. 
+大きなスライスがあり、その一部だけを参照したい場合はどうでしょうか。
 
-We call this slicing a slice, or _subslicing_.
+これをスライスのスライス、すなわち _サブスライス_ と呼びます。
 
-Subslicing looks similar to the _indexing_ operation we saw a few slide ago, except it refers to a range of slice indexes.
+サブスライスは、スライスインデックスの範囲を参照を除いて、少し前のスライドで見た _インデックス_ 操作に似ています。
 
 .play -edit src/slices/slices12/main.go
 
-The expression `brothers[0:3]` evaluates to a slice of the 1st to 3rd Marx brother.
+`brothers[0:3]` は、1から3番目のマルクス・ブラザースのスライスとなります。
 
-- Follow [[https://play.golang.org/p/d1-jl42aTF][this link]] and complete the exercise.
+- [[https://play.golang.org/p/d1-jl42aTF][こちら]] のリンクをたどり、演習を完了してください。
 
-* Subslices (cont.)
+* SubSlices (cont.)
 
-An important thing to remember when slicing a slice, is that both slices refer to the _same_ underying data.
+スライスをスライスするときに覚えておくべき重要なことは、両方のスライスが _同一の_ データを参照していることです。
 
 .play -edit src/slices/slices10/main.go
 
-To create two independent slice values, you would use the `copy` function, which we'll discuss later.
+2つの独立したスライス値を作成するには、 `copy` 関数を使用します。これについては後で説明します。
 
-* Bounds checking
+* 境界チェック
 
-Each slice has a length which is decided when it is made.
+それぞれのスライスは、スライス作成時に決定される長さを持っています。
 
-You can increase the length of the slice with the `append` function, and create a smaller slice from a larger one using the slice operator.
+`append` 関数でスライスの長さを増やし、スライス演算子を使ってより大きなスライスから小さなスライスを作成することができます。
 
-What happens if you accidentally exceed the bounds of the slice?
+誤ってスライスの範囲を超えた場合はどうなりますか？
 
 .play -edit src/slices/slices11/main.go
 
-- Follow [[https://play.golang.org/p/mIWm0a1amp][this link]] and press the *Run* button.
-- Comment out `fmt.Println(primes[-1])` and see what happens.
+- [[https://play.golang.org/p/mIWm0a1amp][こちら]] のリンクへアクセスし、 *Run* ボタンを押してください。
+- `fmt.Println(primes[-1])` をコメントアウトし、何が起こるか見て下さい。
 
-* Multiple assignment
+* 複数の代入
 
-Go allows you to perform multiple assignments and declarations in one statement.
+Goは、1つの命令文での複数の代入と宣言を許可しています。
 
-For example, if we wanted to declare, `x`, `y`, and `z`, with the values `1`, `2`, and `3` respectively. We could write
+例えば、`x`, `y`, `z` をそれぞれ `1`, `2`, `3` と宣言したいとしたら、以下のように書きます
 
  var x = 1
  var y = 2
  var z = 3
 
-We can write the same thing like this
+同じことを以下のように書くことができます
 
  var x, y, z = 1, 2, 3
 
-- Follow [[https://play.golang.org/p/d2hDJQAfkt][this link]] for some examples of multiple declaration.
+- 複数の宣言のいくつかの例については [[https://play.golang.org/p/d2hDJQAfkt][こちら]] のリンクへアクセスしください
 
-* Multiple return values
+* 複数の戻り値
 
-Multiple assignment is important to understand because you can return multiple values from a function.
+関数から複数の値を返すことができるので、複数の代入は重要です。
 
  func f(i int)
 
-This is a function declaration for `f` which takes one argument, an `int`.
+これは `f` の関数宣言で、一つの引数 `int` をとります。
 
  func g(i int, j int, k string) int
 
-This is a function declaration for `g`, which takes three arguments, two `int` s and a `string`, and returns an `int`.
+これは `g` の関数宣言で、2つの `int` と 1つの `string` の3つの引数をとり、 `int` を返します。
 
  func h(i, j int) (int, int, string)
 
-This is a function declaration for `h`, which takes two arguments, two `ints`, and returns three values, two `int` s and a `string`.
+これは `h` の関数宣言で、2つの `int` 引数をとり、2つの `int` と 1つの `string` の3つの値を返します。
 
-* Multiple return values (cont.)
+* 複数の戻り値 (続き)
 
-Your program must return the number of values specified in the function signature.
+プログラムは、関数シグネチャで指定された値の数を返さなければなりません。
 
 .play -edit src/functions/functions4/main.go
 
-* Assigning multiple return values
+* 複数の戻り値の代入
 
-When you call a function that returns multiple values, you must assign _all_ of them or _none_ of them.
+複数の値を返す関数を呼び出すときは、それらの _全て_ を代入する、またはしない必要があります。
 
  func f() (int, bool, string)
 
@@ -1021,343 +1024,343 @@ When you call a function that returns multiple values, you must assign _all_ of 
          fmt.Println(a, b, c)
  }
 
-`f` returns three values, so we assign them to `a`, `b`, and `c` using the short declaration syntax.
+`f` は3つの値を返すので、短い宣言構文を使ってそれらを `a`, `b`, `c` に代入します。
 
-If we wanted to use only the first and third values we can ignore the second by assigning it to the underscore variable, `_`.
+最初の値と3番目の値だけを使いたい場合は、2番目の値をアンダースコア変数 `_` に代入することで無視することができます。
 
  func main() {
          a, _, c := f()
          fmt.Println(a, c)
  }
 
-* Maps
+* マップ
 
-Go has a built in Hash Map type, called a `map`.
+Goにはハッシュマップ型が組み込まれており、 `map` と呼ばれます。
 
-Maps map values of key type K to values of type V
+型Vの値をキー型Kの値にマップします。
 
  var m map[string]int
 
-Just like making a slice, making a map is accomplished with the `make` built-in.
+スライスを作成するのと同じように、ビルトインの `make` でマップを作成します。
 
 .play -edit src/maps/maps1/main.go
 
-* Inserting values into a map
+* マップへの値の挿入
 
-Inserting a value into a map looks similar to assigning a value to a slice element.
+マップに値を挿入することは、スライス要素に値を代入するのと同じように見えます。
 
 .play -edit src/maps/maps2/main.go
 
-If an entry already exits with that key, it will be overwritten.
+そのキーを持つエントリがすでに存在する場合は、上書きされます。
 
-- Follow [[https://play.golang.org/p/a-V5I0nZ5l][this link]] and complete the exercise.
+- [[https://play.golang.org/p/a-V5I0nZ5l][こちら]] のリンクへアクセスし、演習を完了してください。
 
-_note_: maps are always _unordered_.
+_note_: マップは常に _unordered_ (順不同)です。
 
-* Compact literal initalisation
+* コンパクトなリテラル初期化
 
-Just like slices, maps support compact literal initalisation, which declares and initalises the map.
+スライスと同じように、マップは宣言と初期化を行う、コンパクトなリテラル初期化をサポートしています。
 
 .play -edit src/maps/maps3/main.go
 
-* Retrieving a values from a map
+* マップからの値の取得
 
-Just like a slice, you can retrieve the value stored in a map with the syntax `m[key]`.
+スライスのように、 `m[key]` という構文でマップに格納された値を取得することができます。
 
-If it is present the value will be returned, if not the _zero_value_ will be returned.
+存在する場合は値が返され、そうでなければ _ゼロ値_ が返されます。
 
 .play -edit src/maps/maps4/main.go
 
-* Checking if a map value exists
+* マップ値が存在するかの確認
 
-In the previous slide we saw that `moons["Neptune"]` returned `0`.
+前のスライドでは、 `moons["Neptune"]` が `0` を返しました。
 
-How can we tell if Neptune actually has no moons, or if `0` was returned because there is no entry for Neptune?
+ネプチューンに実際に月がないからか、あるいはネプチューンのエントリがないために `0` が返されたかどちらなのかを知るにはどうすればいいでしょうか？
 
-Map look ups support a second syntax.
+マップのルックアップは第2の構文をサポートします。
 
 .play -edit src/maps/maps5/main.go
 
-* Deleting a value from a map
+* マップからの値の削除
 
-To delete a value from a map, you use the built in `delete` function.
+マップから値を削除するには、ビルトインの `delete` 関数を使います。
 
 .play -edit src/maps/maps6/main.go
 
-* Iterating over a map
+* マップでのイテレート
 
-If we wanted to print out all the values in a map we can use a form of the `for` syntax which is known as `range`.
+マップ内のすべての値を出力したい場合は、 `range` と呼ばれる `for` 構文の形式を使用できます。
 
 .play -edit src/range/range1/main.go
 
-`range` loops over each entry in the map, assigning the map key to `name`, and the map value to `pop`.
+`range` はマップの各エントリをループし、mapキーを `name` に代入し、map値を `pop` に代入します。
 
-* Range over slices
+* スライスでのrange
 
-We say previously that `for`range` works with maps, it also works with slices.
+`for`range` はマップで使用できますが、スライスでも利用できます。
 
 .play -edit src/range/range2/main.go
 
-- Follow [[https://play.golang.org/p/AmQW-OrPC1][this link]] and complete the exercise.
-- If you cannot figure it out, don't worry, there is an answer on the next slide.
+- [[https://play.golang.org/p/AmQW-OrPC1][こちら]] のリンクへアクセスし、演習を完了してください。
+- わからなくても心配しないでください、次のスライドに答えがあります。
 
 * Switch
 
-If you completed the previous exercise you may have written something like this
+あなたが前の練習を完了したなら、このように書いているかもしれません
 
 .play -edit src/range/range2a/main.go /START OMIT/,/END OMIT/
 
-Heavily nested `if`else`if` blocks are discouraged in Go.
+Goでは、重く入れ子にされた `if`else`if` ブロックはやる気を削ぎます。
 
-Instead we can use the other condition statement, `switch`.
+代わりに、他の条件文 `switch` を使うことができます。
 
-* Switch (cont.)
+* Switch (続き)
 
-`switch` can be used 
+`switch` は以下のように使用できます
 
 .play -edit src/switch/switch1/main.go /START OMIT/,/END OMIT/
 
 * fmt
 
-Let's conclude this section by talking about the fmt package.
+fmtパッケージについて説明して、このセクションを終了しましょう。
 
-`fmt` standard for formatted printing; the name is inherited from Go's Plan 9 legacy.
+`fmt` はフォーマットされた表示のための標準です。その名前はGoのPlan 9の遺産を引き継いでいます。
 
-We've use `fmt.Println` a lot up to this point, but the `fmt` package has many other useful functions.
+この時点までは `fmt.Println` を多用していますが、 `fmt` パッケージには他にも多くの便利な機能があります。
 
-We'll focus on `fmt.Printf`, the `f` stands for _formatted_output_.
+`fmt.Printf` に注目すると、 `f` は _formatted_output_ の略です。
 
-Here is an example.
+ここに例があります
 
 .play -edit src/fmt/fmt1/main.go /START OMIT/,/END OMIT/
 
-- Follow [[https://play.golang.org/p/UuzPWcwDrE][this link]] to experiment.
+- [[https://play.golang.org/p/UuzPWcwDrE][こちら]] のリンクへアクセスし、試してみてください
 
-* Formatting verbs
+* フォーマット指定子
 
-If you're used to languages like Python or C, you're probably used to the idea of _formatting_verbs_.
+PythonやCのような言語に慣れているなら、おそらく _フォーマット指定子_ に慣れているでしょう。
 
-The `fmt` package supports a large number of formatting verbs and modifiers. In the previous example you saw `%s` and `%d`, for `string` and `int` respectively.
+`fmt` パッケージは、多数のフォーマット指定子をサポートしています。前の例では、それぞれ `string` と `int` に対して `%s` と `%d` でした。
 
-The `fmt` package is smart enough to spot when you use the wrong formatting verb, or don't provide enough arguments to `fmt.Printf`.
+`fmt` パッケージは、間違ったフォーマット指定子を使用した場合や、 `fmt.Printf` に十分な引数を与えていない場合を見分けられるぐらいスマートです。
 
 .play -edit src/fmt/fmt2/main.go /START OMIT/,/END OMIT/
 
-* Formatting verbs (cont.)
+* フォーマット指定子 (続き)
 
-Having to choose the correct verb that matches the type of the value you want to print is boring.
+表示したい値の型に合った正しい指定子を選ぶのはうんざりです。
 
-To make it easier to use `fmt.Printf` in the simple case, you can use the `%v` verb, which know how to print _any_ value.
+単純な場合に `fmt.Printf`を使いやすくするために、 _どんな_ 値でも出力することができる `％v` 指定子を使うことができます。
 
 .play -edit src/fmt/fmt3/main.go /START OMIT/,/END OMIT/
 
-- Follow [[https://play.golang.org/p/B-E7JOJ1Db][this link]] to experiment with a few more formatting verbs.
+- [[https://play.golang.org/p/B-E7JOJ1Db][こちら]] のリンクへアクセスし、さらにいくつかのフォーマット指定子を試してください。
 
-* Recap
+* 要約
 
-Now you know most of Go!
+今やあなたはGoのほとんどを知っています！
 
-You've learnt:
+あなたは以下を学びました:
 
-- How Go code is formatted.
-- How what the zero value is and how it works.
-- Equality and type conversions
-- The short declaration syntax
-- Multiple assignment.
-- How slices work.
-- How maps work.
-- How the `fmt` package works.
+- Goコードのフォーマット方法
+- ゼロ値がどんなもので、どのように動作するか
+- 等価と型交換
+- 短い宣言構文
+- 複数の代入
+- スライスの仕組み
+- マップの仕組み
+- `fmt` パッケージの仕組み
 
-Time for lunch!
+昼飯の時間だ！
 
-* Development environment and tooling
+* 開発環境とツール
 
-* Development environment and tooling
+* 開発環境とツール
 
-This section focuses on the developer experience
+このセクションでは開発方法に取り組みます。
 
-- Installing Go.
-- Setting up a `$GOPATH` workspace.
-- Introduction to the `go` command.
-- Writing unit tests with the go test command.
+- Goのインストール
+- `$GOPATH` ワークスペースの設定
+- `go` コマンドの概要
+- go testコマンドによる単体テストの作成
 
-* Installing Go
+* Goのインストール
 
-The next few slides give examples of how to install Go on various systems.
+次の数枚のスライドでは、さまざまなシステムにGoをインストールする方法の例を示します。
 
-The official installation documentation is here:
+公式のインストールドキュメントはこちら:
 
 .link https://golang.org/doc/install
 
-The current version of Go is 1.7.4.
+Goの現在のバージョンは 1.7.4 です
 
-- New minor releases, Go 1.8, Go 1.9, etc, ship twice a year. 
-- Historically 2–4 bug fix or security releases occur during each six month period.
+- 新しいマイナーリリース、Go 1.8、Go 1.9などは、年2回リリースです。
+- 過去には6ヶ月ごとに2〜4個のバグフィックスまたはセキュリティリリースが発生しています。
 
-* Installing Go on OS X
+* OS X でのGoのインストール
 
-Installing Go on OS X (also known as `darwin`) can be accomplished with
+OS X ( `darwin` とも呼ばれる)でのGoのインストール方法
 
 *Mac*OS*Installer*
 
-The Go project provides an `.pkg` installer, use:
+Goプロジェクトが提供する `.pkg` インストーラを使用する場合は、
 
 .link https://storage.googleapis.com/golang/go1.7.4.darwin-amd64.pkg
 
 *Homebrew*
 
-If you use Homebrew to manage third party software on your Mac, use:
+Macのサードパーティソフトウェアを管理するHomebrewを使用する場合は、
 
  brew install golang
 
 *MacPorts*
 
-If you use MacPorts to manage third party software on your Mac, use:
+Macのサードパーティソフトウェアを管理するMacPortsを使用する場合は、
 
  sudo port install go
 
-* Installing Go on Windows
+* Windows でのGoのインストール
 
 *MSI*Installer*
 
-The Go project provides a `.msi` installer for 32bit and 64bit Windows, use:
+Goプロジェクトが提供する32bit版と64bit版のWindows用の `.msi` インストーラを使用する場合は、
 
 .link https://storage.googleapis.com/golang/go1.7.4.windows-amd64.msi Windows 64bit MSI installer
 .link https://storage.googleapis.com/golang/go1.7.4.windows-386.msi Windows 32bit MSI installer
 
 *.zip*file*
 
-The Go project provides a `.zip` file of the Go compiler and standard library, use:
+Goプロジェクトが提供するGoコンパイラと標準ライブラリの `.zip` ファイルを使用する場合は、
 
 .link https://storage.googleapis.com/golang/go1.7.4.windows-amd64.zip Windows 64bit zip file
 .link https://storage.googleapis.com/golang/go1.7.4.windows-386.zip Windows 32bit zip file
 
-Unzip the zip file and place it at `C:\Go`.
+zipファイルを解凍し、 `C:\Go` に置きます。
 
-* Installing Go on Linux
+* Linux でのGoのインストール
 
-Depending on your Linux distribution they may have an up to date version of Go, but this is rare.
+あなたのLinuxディストリビューションによっては、Goの最新バージョンがあるかもしれませんが、これはまれです。
 
-The most reliable way to install the latest version of Go is to untar
+Goの最新バージョンをインストールする最も信頼性の高い方法は、
 
 .link https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
 
-to the directory
+を以下のディレクトリにuntarすることです
 
  /usr/local
 
-and add 
+そして、 
  
  /usr/local/go/bin
 
-to your `$PATH`.
+をあなたの `$PATH` に追加してください
 
  echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bash_profile
 
 * Go tool
 
-Your Go installation comes with a tool we call the `go` tool, because that's its name.
+Goのインストールには、 `go` toolと呼ばれるツールが付属しています。
 
-The `go` tool can 
+`go` toolは以下のことができます
 
-- compile your programs
-- run your tests
-- display documentation for a package
-- fetch packages from the internet.
+- プログラムのコンパイル
+- テストの実行
+- パッケージのドキュメントの表示
+- インターネットからパッケージを取得する
 
 * $GOPATH
 
-The `go` tool works inside a workspace where _all_ your Go source code is stored.
+`go` toolは、あなたのGoソースコードが _すべて_ 格納されているワークスペースの中で動作します。
 
-All the source code for this workshop is included with this repository.
+このワークショップのソースコードはすべてこのリポジトリに含まれています。
 
-You can set `$GOPATH` to be the base directory where you checked out this repository. eg.
+`$GOPATH` をこのリポジトリをチェックアウトしたベースディレクトリに設定することができます。例えば、
 
  % export GOPATH=$HOME/introduction-to-go
 
-Using a workspace allows you to import code from other packages with a fixed name. eg.
+ワークスペースを使用すると、固定名で他のパッケージからコードをインポートすることができます。例えば、
 
  import "github.com/pkg/profile"
 
-Will import the code for the `profile` package stored in
+は、以下に格納されている `profile` パッケージのコードをインポートします。
 
  $GOPATH/src/github.com/pkg/profile
 
 * go build
 
-Go is a compiled language, so the usual work flow is 
+Goはコンパイル言語なので、通常のワークフローは
 
-- Edit code
+- コードを書く
 - `go`build`
-- Run program
+- プログラムを実行
 
-Let's try building a Go program
+Goプログラムをビルドしてみましょう
 
 - `cd`$GOPATH/src/helloworld`
-- Read the source for `hello.go`
-- Build the source with `go`build`
-- Run the program `./helloworld`
+- `hello.go` のソースコードを読んでください
+- `go`build` でソースコードをビルドしてください
+- `./helloworld` でプログラムを実行してください
 
-* What time is it (exercise)
+* What time is it (演習)
 
-Let's write a clock, a program that prints out the current time
+時計を書いてみましょう。現在の時刻を表示するプログラムです。
 
 - `cd`$GOPATH/src/whattimeisit`
-- edit `main.go` and finish the program (if you get stuck the answer is in `answer.go`)
-- Build the program with, `go`build` (if you make an error, go back and edit `main.go`)
-- Run your program `./whattimeisit`, it should print something like this
+- `main.go` を編集し、プログラムを終了してください (もし行き詰まったら答えは `answer.go` にあります)
+- `go`build` でプログラムをビルドしてください (もしエラーが出たら、戻って `main.go` を編集してください)
+- `./whattimeisit` でプログラムを実行してください、以下のようなものを表示するはずです
 
  The current time is 2016-12-05 12:33:18.222821474 +0900 JST
 
-* Testing
+* テスト
 
-I wanted to spend some time on testing because for the rest of the day we'll be using tests to complete code katas.
+残りの日はテストを使ってcode katas(訳注:プログラミング演習)を完成させたいので、テストについて時間を費やしたい。
 
-The testing package can also contain benchmark functions and examples, which show up in godoc.
+testingパッケージには、godocで表示されるexampleとベンチマーク関数も含まれています。
 
-You should include tests for each package that you write.
+あなたが書くパッケージごとにテストを含めるべきです。
 
-The `testing` package is ideal for _unit_tests_. It's _ok_ for functional tests, but not really suitable for complex integration tests.
+`testing` パッケージは _単体テスト_ には理想的です。機能テストの場合は _ok_ ですが、複雑な統合テストにはあまり適していません。
 
 * go test
 
-`go`test` is the unit testing framework built into the Go standard library. It lives in the `testing` package.
+`go`test` はGo標準ライブラリに組み込まれたユニットテストフレームワークです。 `testing` パッケージに入っています。
 
-Tests live in `_test.go` files, eg. the `strings` package has these files:
+テストは `_test.go` ファイルにあります。例えば `strings` パッケージには次のファイルがあります:
 
-- `strings.go` functions to manipulate UTF-8 encoded strings.
-- `strings_test.go` tests for the `strings` package.
+- `strings.go` UTF-8でエンコードされた文字列を操作するための関数
+- `strings_test.go` `strings` パッケージのテスト
 
-Each test is a function in the form
+それぞれのテストは関数形式です
 
  func TestNameOfTest(t *testing.T) { ... }
 
-- `NameOfTest` is the name of your test, it _must_ start with an upper case letter.
-- Test functions take a `testing.T` value, which provides helpers like `t.Error` and `t.Fail`.
+- `NameOfTest` はあなたのテストの名前です。それは _必ず_ 大文字で始まります。
+- テスト関数は `t.Error` や `t.Fail` のようなヘルパーを提供する `testing.T` 値を取ります。
 
-* Writing tests
+* テストを書く
 
-Let's write some tests using our own version of the strings package, called `simplestrings`.
+`simplestrings` と呼ばれる独自のバージョンのstringsパッケージを使っていくつかのテストを書いてみましょう。
 
-- The code for this exercise is in `$GOPATH/src/simplestrings/`
-- Read the source code for `simplestrings.go`
+- この演習のコードは `$GOPATH/src/simplestrings/` にあります
+- `simplestrings.go` のソースコードを読んでください
 
-Together we'll write some tests for the functions in our `simplestrings` package.
+一緒に関数のテストを `simpleestrings` パッケージに書きます。
 
-We'll use the test coverage (see next slide) tool to check our work.
+テストカバレッジ（次のスライドを参照）ツールを使用して作業を確認していきます。
 
-* Test coverage
+* テストカバレッジ
 
-`go`test` can report coverage
+`go`test` はカバレッジを報告できます
 
  go test -coverprofile=cover.out
 
-This produces a coverage file, `cover.out`
+これは、カバレッジファイル `cover.out` を生成します。
 
-- `go`tool`cover`-func=cover.out` will print the coverage report
-- `go`tool`cover`-html=cover.out` will open the report in a browser
+- `go`tool`cover`-func=cover.out` はカバレッジレポートを表示します
+- `go`tool`cover`-html=cover.out` はレポートをブラウザで開きます
 
-_Protip_: I use these little shell functions to make this easier
+_Protip_: 私はより簡単にするため、これらの小さなシェル関数を使います
 
  cover () {
    t=$(mktemp -t cover)
@@ -1369,9 +1372,9 @@ _Protip_: I use these little shell functions to make this easier
    go test $COVERFLAGS -coverprofile=$t $@ && go tool cover -html=$t && unlink $t
  }
 
-* The standard library
+* 標準ライブラリ
 
-Go ships with a rich standard library of packages. This includes
+Goはパッケージの豊富な標準ライブラリを同梱しています。これは以下を含んでいます
 
 - file input / output
 - string handling
@@ -1382,45 +1385,45 @@ Go ships with a rich standard library of packages. This includes
 
 * Katas
 
-For the rest of the day let's practice writing Go code together.
+今日の残りの時間は一緒にGoコードを書く練習をしましょう。
 
-The Ruby community have a tradition of _code_katas_, small exercises to make the test pass.
+Rubyコミュニティには、テストパスを行うための小さな演習の _code_katas_ という伝統があります。
 
-As we work through the katas, we'll visit some more of the Go standard library.
+katasを通して作業するときに、Go標準ライブラリのいくつかをさらに訪れます。
 
-* String formatting
+* 文字列フォーマット
 
-As a warm up, let's do a small kata together. 
+ウォームアップとして、一緒に小さなkataをしましょう。
 
-The code for this kata is in `$GOPATH/src/katas/sprintf`
+このkataのコードは `$GOPATH/src/katas/sprintf` にあります。
 
-If you get stuck, the answers are in `$GOPATH/src/katas/sprintf/answers_test.go`.
+もし行き詰まったら、答えは `$GOPATH/src/katas/sprintf/answers_test.go` にあります。
 
-* Structs
+* 構造体
 
-So far we've discussed two kinds of types; _primitive_ types and _slice_ types.
+これまでは、 _プリミティブ_ 型と _スライス_ 型の2つの型について説明しました。
 
-Go supports what we call _compound_ types, that is, types that are _composed_ of other types. 
+Goは、_複合_ 型と呼ばれるもの、つまり他の型で _構成される_ 型をサポートしています。
 
-These are called _struct_ (for _structure_) types. We declare a struct like this:
+これらは _構造体_ （ _構造体_ のための）型と呼ばれます。次のような構造体を宣言します:
 
  type Point struct {
           X int
           Y int
  }
 
-`Point` is a position in two dimensional space, it has two fields, `X` and `Y`.
+`Point` は2次元空間内の位置で、 `X` と `Y` の2つのフィールドを持っています。
 
-- Follow [[https://play.golang.org/p/fAnPV1MojK][this link]] to complete the example
+- 完全な例は [[https://play.golang.org/p/fAnPV1MojK][こちら]] リンクにあります
 
-* Methods
+* メソッド
 
-To this point we've talked about functions, which belong to a package
+ここまでは、パッケージに属する関数について説明しました
 
  // Max returns the larger of a or b.
  func Max(a, b int) int
 
-In Go, you can attach a function to a type that you declare, this is called a _method_.
+Goでは、宣言する型に関数をアタッチすることができます。これは _メソッド_ と呼ばれます。
 
  type Point struct { X, Y int }
 
@@ -1428,177 +1431,177 @@ In Go, you can attach a function to a type that you declare, this is called a _m
           return fmt.Sprintf("point: x=%d, y=%d", p.X, p.Y)
  }
 
-Any type that implements a `String()`string` method will be used by the `fmt` package when it prints the value.
+`String()`string` メソッドを実装している型は、その値を出力する時 `fmt` パッケージが使用されます。
 
-- Complete the kata in `$GOPATH/src/katas/methods` by making all the tests pass.
+- `$GOPATH/src/katas/methods` で全てのテストをパスしてkataを完成させてください。
 
-* Pointers
+* ポインタ
 
-Whenever you pass a value to a function or method, the value is _copied_.
+関数またはメソッドに値を渡すたびに、値がコピーされます。
 
-In Go, the method's receiver is also a value, so it's copied when you call a method.
+Goでは、メソッドのレシーバーも値のため、メソッドを呼び出すとコピーされます。
 
 .play -edit src/pointers/pointers1.go /START OMIT/,/END OMIT/
 
-- Complete the kata in `$GOPATH/src/katas/pointers` by making the test pass.
+- `$GOPATH/src/katas/pointers` でテストをパスしてkataを完成させてください。
 
-* Interfaces
+* インタフェース
 
-Go is an object oriented language; we have methods on types, but Go does not support inheritance or sub-classes.
+Goはオブジェクト指向言語です。型についてはメソッドがありますが、Goは継承またはサブクラスをサポートしていません。
 
-Go supports polymorphism, _has_a_ (not _is_a_) with _interfaces_.
+Goはポリモーフィズム、 _has_a_ （ _is_a_ ではない）を _インタフェース_ でサポートしています。
 
-An interface declaration looks like this:
+インタフェース宣言は次のようになります:
 
  type Reader interface { 
           Read(buf []byte) (int, error) 
  }
 
-This is the [[https://golang.org/pkg/io/#Reader][`io.Reader`]] interface declaration from the [[https://golang.org/pkg/io/][`io`]] package.
+これは、 [[https://golang.org/pkg/io/][`io`]] パッケージからの [[https://golang.org/pkg/io/#Reader][`io.Reader`]] インタフェース宣言です。
 
-Go does not have an _implements_ keyword, any type with the correct set of methods _is_ an implementation of the interface.
+Goには、_implements_ キーワードがありません。メソッドの正しいセットを持つ型は、インタフェースの実装です。
 
 * Reading input
 
-This kata asks you to write a function that reads lines from an io.Reader and returns a string containing all the lines read.
+このkataは、io.Readerから行を読み込み、読み込まれたすべての行を含む文字列を返す関数を記述するように要求します。
 
-The code for this kata is in `$GOPATH/src/katas/input`
+このkataのコードは `$GOPATH/src/katas/input` にあります
 
 * Readers
 
-To familarise you with the `io.Reader` implementations available in the `io` package, this kata is all about Readers.
+`io` パッケージで利用可能な `io.Reader` 実装を習熟するために、このkataはすべてReaderに関するものです。
 
-- Complete the kata in `$GOPATH/src/katas/readers` by making the test pass.
-- If you get stuck, consult the documentation in the [[https://golang.org/pkg/io/][`io`]] package.
+- `$GOPATH/src/katas/readers` でテストをパスしてkataを完成させてください。
+- もし行き詰まったら、 [[https://golang.org/pkg/io/][`io`]] パッケージのドキュメントを参照してください。
 
-* Error handling
+* エラーハンドリング
 
-You probably spotted that lots of methods and functions in the Go standard library return a value of type `error`. 
+おそらく、Go標準ライブラリのメソッドと関数の多くが `error` 型の値を返すことに気づいたでしょう。
 
-`error` is a _predeclared_type_, just like `int`, `string`, etc.
+`error` は `int`, `string` などと同じ _宣言された型_ です。
 
-`error` is an interface, it's declaration is
+`error` はインタフェースです。宣言は
 
  type error interface {
          Error() string
  }
 
-Any type that has an `Error()`string` method, _implements_ the `error` interface.         
+`Error()`string` メソッドを持つ型は、 `error` インタフェースを _実装_ します。
 
 * Nil
 
-`nil` is Go's version of `NULL`, `null`, `void`.
+`nil` はGo版の `NULL`, `null`, `void` です。
 
-- The zero value of an interface type is `nil`.
-- The zero value of a pointer type is `nil`.
+- インタフェース型のゼロ値は `nil` です
+- ポインタ型のゼロ値は `nil` です
 
-Go uses the `error` interface and a simple convention to implement error handling.
+Goは `error` インタフェースと単純な規約を使ってエラー処理を実装しています。
 
-- If no error occurs, the `err` value returned from a function or method will equal nil.
-- If an error occurs, the `err` value returned from a function or method will not equal nil.
+- エラーが発生しなければ、関数またはメソッドから返された `err` 値はnilに等しくなります。
+- エラーが発生した場合、関数またはメソッドから返された `err` 値はnilと等しくなりません。
 
  if err != nil {
           // cleanup and handle error
  }
 
-* Counting the number of lines in a file
+* ファイル内の行数を数える
 
-Now we know about `io.Reader`'s, `error`'s, we can write some more useful programs.
+今、私達は `io.Reader`, `error` について知っているので、もっと便利なプログラムを書くことができます。
 
-The code for this kata is in `$GOPATH/src/katas/countlines`
+このkataのコードは `$GOPATH/src/katas/countlines` にあります
 
 _Note_:
 
-- `go`test` always executes from the package's source directory, this makes it simple to include fixtures for your tests.
-- The go tool ignores any directory called `testdata`, or starts with a `.` or `_`.
+- `go`test` は常にパッケージのソースディレクトリから実行されます。これによりテスト用のフィクスチャを簡単に組み込むことができます。
+- go toolは `testdata` と呼ばれるディレクトリ、 `.` または `_` で始まるディレクトリを無視します。
 
 * defer
 
-In `CountLines` from our previous example, if an error happened during reading lines, `f` may not be closed.
+前の例の `CountLines` では、行を読み込んでいるときにエラーが発生した場合、 `f` を閉じることはできません。
 
-Go has a keyword `defer` to ensure operations _always_ happen.
+Goには `defer` キーワードがあり、 _常に_ 動作が保証されています。
 
 .code -edit src/defer/defer1.go /START OMIT/,/END OMIT/
 
-* Error handling (cont.)
+* エラーハンドリング (続き)
 
-In the previous counting example, if an error happened, the program would exit.
+以前のカウンティングサンプルでは、エラーが発生した場合、プログラムは終了します。
 
-In this kata, we'll handle errors by returning them to the caller.
+このkataでは、エラーを呼び出し側に返すことでエラーを処理します。
 
-The code for this kata is in `$GOPATH/src/katas/errorhandling`
+このkataのコードは `$GOPATH/src/katas/errorhandling` にあります
 
 * Passing in a reader
 
-Let's turn out `Countlines` function into a program.
+プログラム中の `Countlines` 関数を消しましょう。
 
-The code for this kata is in `$GOPATH/src/katas/linecount`
+このkataのコードは `$GOPATH/src/katas/linecount` にあります
 
-Complete the program so it reads the number of lines sent to it via stdin.
+stdin経由で送られた行数が読み込まれるようにプログラムを完成させてください。
 
  % cat testdata/moby.txt | ./linecount 
  22659
 
-* Handling multiple files
+* 複数のファイルの処理
 
-Let's extend our `linecount` program to handle files passed on the command line.
+`linecount` プログラムを拡張して、コマンドラインで渡されるファイルを処理しましょう。
 
-The code for this kata is in `$GOPATH/src/katas/countmanyfiles`
+このkataのコードは `$GOPATH/src/katas/countmanyfiles` にあります
 
-Complete the program so it counts the lines in files passed via the command line.
+コマンドラインで渡されたファイルの行数をカウントするようにプログラムを完成させてください。
 
  % ./countmanyfiles testdata/*.txt
  testdata/dracula.txt    15973
  testdata/pride-and-prejudice.txt        13427
  testdata/sherlock.txt   13052
 
-* Reading all the *.txt files in a directory
+* ディレクトリ内のすべての* .txtファイルを読み込む
 
-In the previous example we used the shell to list files to process.
+前の例では、処理するファイルを一覧表示するためにシェルを使用しました。
 
-In this kata, let's extend our `countmanyfiles` program to walk the directory listing itself.
+このkataでは、ディレクトリリスト自体を探索するために、 `countmanyfiles` プログラムを拡張しましょう。
 
-To do this we use the [[https://golang.org/pkg/os/#File.Readdir][`ReadDir`]] method on [[https://golang.org/pkg/os/#File][`os.File`]].
+これを行うには、 [[https://golang.org/pkg/os/#File][`os.File`]] の [[https://golang.org/pkg/os/#File.Readdir][`ReadDir`]] メソッドを使用します
 
-_Note_: Be careful to only read _files_, not directories, and do not read files that don't end in `.txt`
+_Note_: ディレクトリではなく、 _ファイル_ だけを読むよう注意し、 `.txt` で終わらないファイルは読まないようにしてください
 
-The code for this kata is in `$GOPATH/src/katas/countdir`
+このkataのコードは `$GOPATH/src/katas/countdir` にあります
 
-Complete the program so it counts the lines in files passed via the command line.
+コマンドラインで渡されたファイルの行数をカウントするようにプログラムを完成させてください。
 
  % ./countdir testdata/
  testdata/christmas-carol.txt    4236
  testdata/tom-sawyer.txt 9209
 
-* Let's take a break
+* 休憩しましょう
 
 * HTTP request
 
-The Go standard library supports writing HTTP clients and servers with the [[https://golang.org/pkg/net/http/][`net/http`]] package.
+Go標準ライブラリは、 [[https://golang.org/pkg/net/http/][`net/http`]] パッケージを使用してHTTPクライアントとサーバを記述するのをサポートしています。
 
-Using the `net/http` package is very straight forward:
+`net/http` パッケージを使うことはとても簡単です:
 
  resp, err := http.Get("http://example.com/")
  if err != nil {
          // handle error
  }
  
-`resp` is a [[https://golang.org/pkg/net/http/#Response][`http.Response`]] structure, which has lots of interesting fields.
+`resp` は興味深いフィールドがたくさんある [[https://golang.org/pkg/net/http/#Response][`http.Response`]] 構造体です。
 
-Let's write a simple HTTP client that can fetch HTTP URLs.
+HTTP URLを取得できる単純なHTTPクライアントを作成しましょう。
 
  % ./httpget http://httpbin.org/ip
  {
    "origin": "125.203.122.114"
  }
 
-The code for this kata is in `$GOPATH/src/katas/httpget`
+このkataのコードは `$GOPATH/src/katas/httpget` にあります
 
 * JSON parsing
 
-The service at `http://httpbin.org/` returns JSON bodies.
+`http://httpbin.org/` のサービスはJSON本体を返します。
 
-The [[https://golang.org/pkg/encoding/json/][`encoding/json`]] package can decode JSON data into a map.
+[[https://golang.org/pkg/encoding/json/][`encoding/json`]] パッケージは、JSONデータをマップにデコードできます。
 
  result := make(map[string]string)
  dec := json.NewDecoder(resp.Body)
@@ -1607,81 +1610,81 @@ The [[https://golang.org/pkg/encoding/json/][`encoding/json`]] package can decod
          // handle error
  }
 
-Let's use this to write a program that will tell us our public IP address.
+これを使用して、パブリックIPアドレスを返すプログラムを作成しましょう。
 
  % ./whatismyip 
  My IP address is: 125.203.122.114
 
-The code for this kata is in `$GOPATH/src/katas/whatismyip`
+このkataのコードは `$GOPATH/src/katas/whatismyip` にあります
 
 * JSON encoding
 
-If you're writing a RESTful web service it's common to have to return JSON encoded data.
+RESTfulなWebサービスを作成する場合は、JSONでエンコードされたデータを返す必要があるのが一般的です。
 
-In Go the [[https://godoc.org/encoding/json][`encoding/json`]] package can turn Go maps and data structures into JSON.
+Goでは [[https://godoc.org/encoding/json][`encoding/json`]] パッケージはGoのマップとデータ構造をJSONに変換できます。
 
 .play -edit src/jsonenc/jsonenc1.go /START OMIT/,/END OMIT/
 
 * Controlling JSON encoding
 
-The `encoding/json` package requires the fields of a struct to be public (start with an upper case letter), this means the keys in your JSON document will be upper case.
+`encoding/json` パッケージは、構造体のフィールドをpublic（大文字で始める）にする必要があります。つまり、JSONドキュメントのキーは大文字になります。
 
-We can fix this and control the output of the JSON with a _tag_.
+_tag_ を含むJSONの出力を制御し、これを修正できます。
 
-The format of the JSON tag is documented on the [[https://golang.org/pkg/encoding/json/#Marshal][`json.Encode`]] method.
+JSON tagの形式は、 [[https://golang.org/pkg/encoding/json/#Marshal][`json.Encode`]] メソッドに記述されています。
 
 .play -edit src/jsonenc/jsonenc2.go /START OMIT/,/END OMIT/
 
 * JSON encoding kata
 
-The code for this kata is in `$GOPATH/src/katas/jsonenc`
+このkataのコードは `$GOPATH/src/katas/jsonenc` にあります
 
 * Writing HTTP servers
 
-Go's [[https://golang.org/pkg/net/http][`net/http`]] library can be used to write production web applications.
+Goの [[https://golang.org/pkg/net/http][`net/http`]] ライブラリを使って、Webアプリケーションを作成できます。
 
-Writing web servers in Go can be as simple as a few lines. Here is an example:
+GoでWebサーバーを書くことは、数行で簡単にできます。次に例を示します:
 
 .play -edit src/http/http1.go
 
-* Writing http servers (cont.)
+* Writing http servers (続き)
 
-This is a simple HTTP handler
+これは単純なHTTPハンドラです
 
  func index(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintln(w, "This is the index page")
  }
 
-it takes two parameters
+それは2つのパラメータを取ります
 
-- `w`, a `http.ResponseWriter` which is used to send data to the client
-- `r`, a `http.Request` which contains the uri, query parameters, and request body.
+- `w`, クライアントにデータを送信するために使用される `http.ResponseWriter`
+- `r`, uri、クエリパラメータ、リクエストボディを含む `http.Request`
 
  mux := http.NewServeMux()
 
-`http.NewServeMux` returns a `ServeMux`, what we usually call a HTTP router.
+`http.NewServeMux` は、通常はHTTPルータと呼ばれる `ServeMux` を返します。
  
-* Writing http servers (cont.)
+* Writing http servers (続き)
 
  mux.HandleFunc("/", index)
 
-Registers our `index` function, with the top level route, `"/"`.
+最上位ルート `"/"` を持つ `index` 関数を登録します。
 
  http.ListenAndServe(":8000", mux)
 
-Opens a socket on port 8080 and sends and requests to our `mux` (our router).
+ポート8080にソケットをオープンし、 `mux` （ルータ）にリクエストを送信します。
 
-`http.ListenAndServe` won't return unless something happens to that listening socket (wifi drops, cable unplugs)
+そのリッスンソケットに何か（wifi切断、ケーブルの抜き差し） 起こらない限り、 `http.ListenAndServe` はreturnすることはありません
 
 * go get
 
-`go`get` is a simple wrapper around `git` that knows how fetch packages from GitHub (and a few other places).
+`go`get` は、GitHub（そして他のいくつかの場所）からパッケージを取得することができる `git` の単純なラッパーです。
 
-If a package's import path follows the `go`get` convention, `go`get` knows how to fetch the source code and download it to your `$GOPATH`.
+パッケージのインポートパスが `go`get` の規則に従っている場合、 `go`get` はソースコードを取得して `$GOPATH` にダウンロードすることができます。
 
-`go`get` isn't a complete dependency manager like rubygems or npm, etc, but it good enough for writing many applications.
+`go`get` は、rubygemsやnpmなどのような完全な依存管理ではありませんが、多くのアプリケーションを書くのに十分です。
 
-We'll use `go`get` to fetch the source for `gorilla/mux`, a more advanced HTTP router
+より高度なHTTPルータである `gorilla/mux` のソースを取得するために `go`get` を使います
 
  % go get github.com/gorilla/mux 
  % ls $GOPATH/src/github.com/gorilla/mux
@@ -1692,34 +1695,34 @@ We'll use `go`get` to fetch the source for `gorilla/mux`, a more advanced HTTP r
 
 * Using gorilla/mux
 
-The standard HTTP router, `http.ServeMux` is quite basic, so we'll upgrade to the `gorilla/mux` http router.
+標準のHTTPルータである `http.ServeMux` は非常に基本的なので、 `gorilla/mux` のhttpルータにアップグレードします。
 
 .play -edit src/http/http2.go
 
 * Line counting HTTP service
 
-Let's write a HTTP service that counts the lines in a book via http.
+httpを介して本の行を数えるHTTPサービスを作成しましょう。
 
-Features:
+特徴:
 
-- When the client requests `/books/{book}` we look up the book and return the number of lines counted.
-- The response to the client should be in JSON format and include the number of lines and the title of the book.
-- Book directory is configurable.
+- クライアントが `/books/{book}` をリクエストすると、その本を検索し、数えられた行数を返します。
+- クライアントへのレスポンスは、JSON形式でなければならず、行数と書籍のタイトルが含まれている必要があります。
+- 本のディレクトリは設定可能です。
 
  % ./httplinecount ../../../books/ &
  [1] 17554
  % curl http://localhost:8080/books/moby.txt
  {"title":"moby.txt","lines":"22659"}
 
-The code for this kata is in `$GOPATH/src/katas/httplinecount`
+このkataのコードは `$GOPATH/src/katas/httplinecount` にあります
 
-* Time for a break
+* 休憩の時間
 
 * Documenting packages with comments
 
-Go code is traditionally documented with comments in the source code. This is similar to Python's heredoc convention.
+Goコードは伝統的にソースコード内のコメントとともに文書化されています。これは、Pythonのheredoc規約に似ています。
 
-Here are some examples
+以下が例です
 
  // simplestrings provides simple helper functions to work with strings
  package simplestrings
@@ -1732,59 +1735,59 @@ Here are some examples
 
 _Notes_
 
-- Comments directly precede the thing they apply to, don't put an extra newline in between the comment and the symbol
-- You should comment both Public and private symbols, but godoc will only show you the documents
+- コメントは、それが適用されるものの直前にあります。コメントとシンボルの間に余分な改行を入れないでください
+- Publicシンボルとprivateシンボルの両方にコメントを付ける必要がありますが、godocはドキュメントのみを表示します
 
 * Scope
 
-We've talked about all the ways to declare a variable in Go, now we need to discuss scope.
+Goで変数を宣言するすべての方法について説明しましたが、スコープについて説明する必要があります。
 
 .code -edit src/scope/scope1/main.go
 
-This program declares `x` four times. All four `x` 's are _different_ because they exist in different scopes.
+このプログラムは `x` を4回宣言します。異なるスコープに存在するため、4つの `x` すべては _異なり_ ます。
 
-- Follow [[https://play.golang.org/p/nIcOXVXgwl][this link]] and press the *Run* button.
+- [[https://play.golang.org/p/nIcOXVXgwl][こちら]] のリンクへアクセスし、 *Run* ボタンを押してください。
 
-* Scope (cont.)
+* Scope (続き)
 
-The scope of a declaration is bound to the closest pair of curly braces, `{` and `}`.
+宣言のスコープは、最も近い中括弧 `{` と `}` に束縛されています。
 
 .code -edit src/scope/scope2/main.go
 
-In this example, we declare `x` to be 100 inside `main`, and 200 inside `f`.
+この例では、 `main` の内側で `x` を100、 `f` の内側で200を宣言します。
 
-- Follow [[https://play.golang.org/p/Xfi3GOhTiC][this link]] and press the *Run* button.
-- Did the program print what you expected?
+- [[https://play.golang.org/p/Xfi3GOhTiC][こちら]] のリンクへアクセスし、 *Run* ボタンを押してください。
+- プログラムはあなたが期待したものを表示しましたか？
 
-* Scope (cont.)
+* Scope (続き)
 
-What do you expect this program will print?
+このプログラムが何を表示すると思いますか？
 
 .code -edit src/scope/scope3/main.go
 
-- Follow [[https://play.golang.org/p/7uxrebFzmK][this link]] and press the *Run* button.
-- Did you guess the right answer?
+- [[https://play.golang.org/p/7uxrebFzmK][こちら]] のリンクへアクセスし、 *Run* ボタンを押してください。
+- あなたは正しい答えを推測できましたか？
 
-* Scope (cont.)
+* Scope (続き)
 
-What do you expect this program will print?
+このプログラムが何を表示すると思いますか？
 
 .code -edit src/scope/scope4/main.go
 
-- Follow [[https://play.golang.org/p/7hpZre9LhI][this link]] and press the *Run* button.
-- Did you guess the right answer?
+- [[https://play.golang.org/p/7hpZre9LhI][こちら]] のリンクへアクセスし、 *Run* ボタンを押してください。
+- あなたは正しい答えを推測できましたか？
 
 * Shadowing
 
-What you are seeing is called _shadowing_.
+以下は _シャドーイング_ と呼ばれています。
 
 .code -edit src/scope/scope5/main.go /START1 OMIT/,/END1 OMIT/
 
-Most of you will be comfortable with a _function_scoped_ variable shadowing a _package_scoped_ variable.
+_関数スコープ_ の変数で _パッケージスコープ_ の変数をシャドーイングするのは簡単です。
 
 .code -edit src/scope/scope5/main.go /START2 OMIT/,/END2 OMIT/
 
-But a _block_scoped_ variable shadowing a _function_scoped_ variable may be surprising.
+しかし、 _関数スコープ_ 変数をシャドーイングする _ブロックスコープ_ 変数には驚くかもしれません。
 
 * Question time
 
