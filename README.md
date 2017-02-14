@@ -6,7 +6,7 @@ This slide deck and supporting material is part of the [_Introduction to Go_](ht
 
 1. Clone this code into a directory
  ```
- git clone https://github.com/davecheney/introduction-to-go
+ git clone https://github.com/kpango/introduction-to-go
  ```
 
 2. Install the Go present tool
