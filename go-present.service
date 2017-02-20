@@ -2,7 +2,7 @@
 Description = sss server daemon
 
 [Service]
-ExecStart = /opt/sss
+ExecStart = /opt/itgo
 Restart = always
 Type = simple
 
