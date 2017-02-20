@@ -8,7 +8,7 @@ sudo systemctl stop go-present.service
 sudo rm -rf /usr/share/introduction-to-go
 sudo mkdir /usr/share/introduction-to-go
 
-sudo cp ./* /usr/share/introduction-to-go/
+sudo cp -r ./* /usr/share/introduction-to-go/
 
 sudo rm -rf /tmp/*
 
