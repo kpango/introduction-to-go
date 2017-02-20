@@ -14,6 +14,10 @@ func main() {
 	}
 	defer resp.Body.Close()
 
+	// str, _ := ioutil.ReadAll(resp.Body)
+
+	// fmt.Println(string(str))
+
 	result := make(map[string]string)
 	dec := json.NewDecoder(resp.Body)
 	if err := dec.Decode(&result); err != nil {
