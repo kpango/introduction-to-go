@@ -1,5 +1,7 @@
 #!/bin/sh
 
+git reset --hard
+
 git fetch
 git reset --hard origin/master
 
@@ -14,6 +16,7 @@ sudo rm -rf /tmp/*
 
 sudo cp ./itgo /opt/
 sudo chmod -R 755 /opt/itgo
+
 sudo cp ./go-present.service /etc/systemd/system/go-present.service
 
 sudo systemctl daemon-reload

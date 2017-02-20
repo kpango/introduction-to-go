@@ -1,2 +1,3 @@
 #!/bin/bash
-present -base=/usr/share/introduction-to-go -play -http=0.0.0.0:3999 
+cd /usr/share/introduction-to-go
+present -play -http=0.0.0.0:3999
