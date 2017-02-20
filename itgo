@@ -1,0 +1,2 @@
+#!/bin/bash
+present -base=/usr/share/introduction-to-go -play -http=0.0.0.0:3999 

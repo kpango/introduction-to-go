@@ -1,0 +1,12 @@
+[Unit]
+Description = sss server daemon
+
+[Service]
+ExecStart = /opt/sss
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target
+
+
