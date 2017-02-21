@@ -1,7 +1,5 @@
 #!/bin/sh
 
-git reset --hard
-
 git fetch
 git reset --hard origin/master
 
