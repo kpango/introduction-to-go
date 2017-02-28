@@ -1111,6 +1111,150 @@ Goでは、重く入れ子にされた `if`else`if` ブロックはやる気を�
 
 .play -edit src/switch/switch1/main.go /START OMIT/,/END OMIT/
 
+
+* 構造体
+
+これまでは、 _プリミティブ_ 型と _スライス_ 型の2つの型について説明しました。
+
+Goは、_複合_ 型と呼ばれるもの、つまり他の型で _構成される_ 型をサポートしています。
+
+これらは _構造体_ 型と呼ばれ、次のように宣言します:
+
+ type Point struct {
+          X int
+          Y int
+ }
+
+`Point` 構造体はint型の `X` と `Y` の2つのフィールドを持っています。
+
+- 完全な例は [[https://play.golang.org/p/fAnPV1MojK][こちら]] リンクにあります
+
+* メソッド
+
+Goでは、型に関数をアタッチすることができます。これは _メソッド_ と呼ばれます。
+
+ type Point struct { X, Y int }
+
+ func (p Point) String() string {
+          return fmt.Sprintf("point: x=%d, y=%d", p.X, p.Y)
+ }
+
+この例ではPoint構造体型は `String()`string` メソッドを実装しています。
+
+ (p Point)
+
+上記はレシーバーと言われます
+
+* ポインタ
+
+関数またはメソッドに値を渡すたびに、値がコピーされます。
+
+Goでは、メソッドのレシーバーも値のため、メソッドを呼び出すとコピーされます。
+
+.play -edit src/pointers/pointers1.go /START OMIT/,/END OMIT/
+
+`Move` メソッドのレシーバーをポインタに書き換えて実行してみてください
+
+* インタフェース
+
+Goはオブジェクト指向言語です。型についてはメソッドがありますが、Goは継承またはサブクラスをサポートしていません。
+
+Goはポリモーフィズム、 _has_a_ （ _is_a_ ではない）を _インタフェース_ でサポートしています。
+
+インタフェース宣言は次のようになります:
+
+ type Reader interface { 
+          Read(buf []byte) (int, error) 
+ }
+
+これは、 [[https://golang.org/pkg/io/][`io`]] パッケージからの [[https://golang.org/pkg/io/#Reader][`io.Reader`]] インタフェース宣言です。
+
+Goのインタフェースの実装には _implements_ などの明示的なキーワードはなく、インタフェースに定義されている正しいメソッドセットを実装されている型をインタフェースを実装していると見なします。
+
+* エラーハンドリング
+
+おそらく、Go標準ライブラリのメソッドと関数の多くが `error` 型の値を返すことに気づいたでしょう。
+
+`error` は `int`, `string` などと同じ _宣言された型_ です。
+
+`error` はインタフェースです。宣言は
+
+ type error interface {
+         Error() string
+ }
+
+`Error()`string` メソッドを持つ型は、 `error` インタフェースを _実装_ します。
+
+* Nil
+
+`nil` はGo言語でいうところの `NULL`, `null`, `void` です。
+
+- インタフェース型のゼロ値は `nil` です
+- ポインタ型のゼロ値は `nil` です
+
+Goは `error` インタフェースと単純な規約を使ってエラー処理を実装しています。
+
+- エラーが発生しなければ、関数またはメソッドから返された `err` 値はnilに等しくなります。
+- エラーが発生した場合、関数またはメソッドから返された `err` 値はnilと等しくなりません。
+
+ if err != nil {
+          // cleanup and handle error
+ }
+
+* defer
+
+メソッドを抜ける時に必ず処理したいケースがある場合 (File I/O , DB close, など...)
+
+Goには `defer` キーワードがあり、メソッド終了時に実行されることが _常に_ 保証されています。
+
+.play -edit src/defer/defer1.go /START OMIT/,/END OMIT/
+
+- *Run* ボタンを押して結果を確認してみてください
+
+_note_: `os.Exit` された場合は実行されません
+
+* goroutine
+
+冒頭ではGo言語は優れた並行処理機構を持っているとお話ししました、
+その一つが `goroutine` です。
+
+`goroutine` は `go` 宣言で実行する事ができます
+
+.play -edit src/goroutine/goroutine.go /START OMIT/,/END OMIT/
+
+- *Run* ボタンを押して結果を確認してみてください
+
+* channel
+
+優れた並行処理をサポートーしている機能のもう一つが `channel` です
+
+`channel` は `make` を使って宣言します
+
+.play -edit src/channel/channel1.go /START OMIT/,/END OMIT/
+
+- *Run* ボタンを押して結果を確認してみてください
+
+* buffered channel
+
+前のスライドでは `channel` に値が入っている状態で値を送ろうとすると `channel` から値を取り出すまで処理がブロックしてしまっていました。
+
+その対策として、Goには `channel` にバッファを有した `buffered` `channel` があり、 `make` に長さを付与することで宣言します
+.play -edit src/channel/channel2.go /START OMIT/,/END OMIT/
+
+- *Run* ボタンを押して結果を確認してみてください
+
+* select
+
+`buffered` `channel` を使い、 `channel` のブロックを制御してきましたが、受信側もまた、値の受け取りを待ち受けていてブロックしている状態になっています。
+
+Go言語では `select` を使うことで、受信時のブロックを制御することができます。
+
+.play -edit src/select/select.go /START OMIT/,/END OMIT/
+
+- *Run* ボタンを押して結果を確認してみてください
+- channelへの送信をコメントアウトしてください
+- 再度 *Run* ボタンを押して結果を確認してみてください
+
 * fmt
 
 fmtパッケージについて説明して、このセクションを終了しましょう。
@@ -1149,17 +1293,18 @@ PythonやCのような言語に慣れているなら、おそらく _フォー�
 
 * 要約
 
-今やあなたはGoのほとんどを知っています！
-
-あなたは以下を学びました:
+ここまででGoの基本的な文法は網羅できているかと思います。
 
 - Goコードのフォーマット方法
 - ゼロ値がどんなもので、どのように動作するか
 - 等価と型交換
 - 短い宣言構文
 - 複数の代入
-- スライスの仕組み
-- マップの仕組み
+- スライス・マップの仕組み
+- 構造体
+- メソッド
+- インタフェース
+- 並行処理
 - `fmt` パッケージの仕組み
 
 
@@ -1170,9 +1315,9 @@ PythonやCのような言語に慣れているなら、おそらく _フォー�
 このセクションでは開発方法に取り組みます。
 
 - Goのインストール
+- エディタ / IDE の紹介
 - `$GOPATH` ワークスペースの設定
 - `go` コマンドの概要
-- go testコマンドによる単体テストの作成
 
 * Goのインストール
 
@@ -1389,68 +1534,6 @@ katasを通して作業するときに、Go標準ライブラリのいくつか�
 
 もし行き詰まったら、答えは `$GOPATH/src/katas/sprintf/answers_test.go` にあります。
 
-* 構造体
-
-これまでは、 _プリミティブ_ 型と _スライス_ 型の2つの型について説明しました。
-
-Goは、_複合_ 型と呼ばれるもの、つまり他の型で _構成される_ 型をサポートしています。
-
-これらは _構造体_ （ _構造体_ のための）型と呼ばれます。次のような構造体を宣言します:
-
- type Point struct {
-          X int
-          Y int
- }
-
-`Point` は2次元空間内の位置で、 `X` と `Y` の2つのフィールドを持っています。
-
-- 完全な例は [[https://play.golang.org/p/fAnPV1MojK][こちら]] リンクにあります
-
-* メソッド
-
-ここまでは、パッケージに属する関数について説明しました
-
- // Max returns the larger of a or b.
- func Max(a, b int) int
-
-Goでは、宣言する型に関数をアタッチすることができます。これは _メソッド_ と呼ばれます。
-
- type Point struct { X, Y int }
-
- func (p Point) String() string {
-          return fmt.Sprintf("point: x=%d, y=%d", p.X, p.Y)
- }
-
-`String()`string` メソッドを実装している型は、その値を出力する時 `fmt` パッケージが使用されます。
-
-- `$GOPATH/src/katas/methods` で全てのテストをパスしてkataを完成させてください。
-
-* ポインタ
-
-関数またはメソッドに値を渡すたびに、値がコピーされます。
-
-Goでは、メソッドのレシーバーも値のため、メソッドを呼び出すとコピーされます。
-
-.play -edit src/pointers/pointers1.go /START OMIT/,/END OMIT/
-
-- `$GOPATH/src/katas/pointers` でテストをパスしてkataを完成させてください。
-
-* インタフェース
-
-Goはオブジェクト指向言語です。型についてはメソッドがありますが、Goは継承またはサブクラスをサポートしていません。
-
-Goはポリモーフィズム、 _has_a_ （ _is_a_ ではない）を _インタフェース_ でサポートしています。
-
-インタフェース宣言は次のようになります:
-
- type Reader interface { 
-          Read(buf []byte) (int, error) 
- }
-
-これは、 [[https://golang.org/pkg/io/][`io`]] パッケージからの [[https://golang.org/pkg/io/#Reader][`io.Reader`]] インタフェース宣言です。
-
-Goには、_implements_ キーワードがありません。メソッドの正しいセットを持つ型は、インタフェースの実装です。
-
 * Reading input
 
 このkataは、io.Readerから行を読み込み、読み込まれたすべての行を含む文字列を返す関数を記述するように要求します。
@@ -1464,36 +1547,6 @@ Goには、_implements_ キーワードがありません。メソッドの正�
 - `$GOPATH/src/katas/readers` でテストをパスしてkataを完成させてください。
 - もし行き詰まったら、 [[https://golang.org/pkg/io/][`io`]] パッケージのドキュメントを参照してください。
 
-* エラーハンドリング
-
-おそらく、Go標準ライブラリのメソッドと関数の多くが `error` 型の値を返すことに気づいたでしょう。
-
-`error` は `int`, `string` などと同じ _宣言された型_ です。
-
-`error` はインタフェースです。宣言は
-
- type error interface {
-         Error() string
- }
-
-`Error()`string` メソッドを持つ型は、 `error` インタフェースを _実装_ します。
-
-* Nil
-
-`nil` はGo版の `NULL`, `null`, `void` です。
-
-- インタフェース型のゼロ値は `nil` です
-- ポインタ型のゼロ値は `nil` です
-
-Goは `error` インタフェースと単純な規約を使ってエラー処理を実装しています。
-
-- エラーが発生しなければ、関数またはメソッドから返された `err` 値はnilに等しくなります。
-- エラーが発生した場合、関数またはメソッドから返された `err` 値はnilと等しくなりません。
-
- if err != nil {
-          // cleanup and handle error
- }
-
 * ファイル内の行数を数える
 
 今、私達は `io.Reader`, `error` について知っているので、もっと便利なプログラムを書くことができます。
@@ -1504,14 +1557,6 @@ _Note_:
 
 - `go`test` は常にパッケージのソースディレクトリから実行されます。これによりテスト用のフィクスチャを簡単に組み込むことができます。
 - go toolは `testdata` と呼ばれるディレクトリ、 `.` または `_` で始まるディレクトリを無視します。
-
-* defer
-
-前の例の `CountLines` では、行を読み込んでいるときにエラーが発生した場合、 `f` を閉じることはできません。
-
-Goには `defer` キーワードがあり、 _常に_ 動作が保証されています。
-
-.play -edit src/defer/defer1.go /START OMIT/,/END OMIT/
 
 * エラーハンドリング (続き)
 
@@ -1562,8 +1607,6 @@ _Note_: ディレクトリではなく、 _ファイル_ だけを読むよう�
  % ./countdir testdata/
  testdata/christmas-carol.txt    4236
  testdata/tom-sawyer.txt 9209
-
-* 休憩しましょう
 
 * HTTP request
 
@@ -1705,8 +1748,6 @@ httpを介して本の行を数えるHTTPサービスを作成しましょう。
  {"title":"moby.txt","lines":"22659"}
 
 このkataのコードは `$GOPATH/src/katas/httplinecount` にあります
-
-* 休憩の時間
 
 * Documenting packages with comments
 
